@@ -4,22 +4,7 @@
 ## Executive Summary
 An end-to-end data pipeline processing **3.3GB of raw web logs** into a structured **Star Schema**. This project demonstrates scalable ETL/ELT practices using Delta Lake to provide actionable DevOps insights.
 
-
-
-## Tech Stack
-* **Engine:** PySpark (DataFrames & Spark SQL)
-* **Storage:** Delta Lake (ACID, Time Travel, Schema Evolution)
-* **Orchestration:** Databricks Workflows (Automated Jobs)
-
----
-
-## Pipeline Architecture
-
-| Layer | Type | Responsibility |
-| :--- | :--- | :--- |
-| **Bronze** | Raw | Ingestion of `.txt` logs into Delta tables (Source of Truth). |
-| **Silver** | Cleansed | Regex parsing, data type casting, and null handling. |
-| **Gold** | Analytics | **Star Schema** implementation (Fact & Dimension tables). |
+<img width="2701" height="2525" alt="image" src="https://github.com/user-attachments/assets/0e9a5523-440c-49eb-8e1c-12e9ade31362" />
 
 ## The Gold Layer (Star Schema)
 To optimize analytical performance, the data is modeled into:
