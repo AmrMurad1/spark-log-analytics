@@ -1,0 +1,43 @@
+
+bundle:
+  name: log-analytics-cicd
+
+resources:
+  jobs:
+    log_processing_job:
+      name: "LogInsights_Main_Pipeline"
+      
+      
+      job_clusters:
+        - job_cluster_key: logging_cluster
+          new_cluster:
+            spark_version: 13.3.x-scala2.12
+            node_type_id: Standard_DS3_v2 # The size of the machine
+            num_workers: 1 
+
+      # Medallion sequence
+      tasks:
+        - task_key: bronze_task
+          job_cluster_key: logging_cluster
+          notebook_task:
+            notebook_path: ./LogInsights/Bronze_Layer.ipynb
+
+        - task_key: silver_task
+          depends_on:
+            - task_key: bronze_task
+          job_cluster_key: logging_cluster
+          notebook_task:
+            notebook_path: ./LogInsights/Silver_Layer.ipynb
+
+        - task_key: gold_task
+          depends_on:
+            - task_key: silver_task
+          job_cluster_key: logging_cluster
+          notebook_task:
+            notebook_path: ./LogInsights/Gold_Layer.ipynb
+
+targets:
+  dev:
+    default: true
+    workspace:
+      host: ${bundle.target.workspace.host}
