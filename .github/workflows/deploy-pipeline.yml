@@ -16,9 +16,9 @@ jobs:
       - name: Setup Databricks CLI
         uses: databricks/setup-cli@main
 
-      - name: Sync via Repos API
+      - name: List Repos
         env:
           DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
           DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
         run: |
-          databricks repos update 1361998714105654 --branch main
+          databricks repos list
