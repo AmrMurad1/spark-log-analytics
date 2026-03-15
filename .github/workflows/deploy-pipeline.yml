@@ -1,4 +1,4 @@
-name: Databricks CD
+name: Databricks Community Deploy
 
 on:
   push:
@@ -16,11 +16,11 @@ jobs:
       - name: Setup Databricks CLI
         uses: databricks/setup-cli@main
 
-      - name: Deploy Bundle
+      - name: Sync Notebooks to Community Edition
         env:
           DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
           DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
         run: |
-          # The 'bundle deploy' command reads your databricks.yml, 
-          # packages your notebooks, and sends them to the cloud.
-          databricks bundle deploy -t dev
+          # We use 'import-dir' to upload your local folder to your workspace.
+          # Change '/Users/your_email@example.com/LogInsights' to your actual Databricks path.
+          databricks workspace import-dir ./LogInsights /Users/amrabdelrahman7788ss@gmail.com/LogInsights --overwrite
