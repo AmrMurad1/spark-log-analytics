@@ -11,16 +11,15 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
-
+        uses: actions/checkout@v4 
       - name: Setup Databricks CLI
         uses: databricks/setup-cli@main
 
-      - name: Sync Notebooks to Community Edition
+      - name: Manual Sync to Workspace
         env:
           DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
           DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
         run: |
-          # We use 'import-dir' to upload your local folder to your workspace.
-          # Change '/Users/your_email@example.com/LogInsights' to your actual Databricks path.
+          # We explicitly call workspace import-dir. 
+          # This avoids the 'bundle' logic and the SCIM error.
           databricks workspace import-dir ./LogInsights /Users/amrabdelrahman7788ss@gmail.com/LogInsights --overwrite
