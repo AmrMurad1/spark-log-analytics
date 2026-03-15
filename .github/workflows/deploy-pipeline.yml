@@ -21,8 +21,4 @@ jobs:
           DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
           DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
         run: |
-          # Get the repo ID first
-          REPO_ID=$(databricks repos list | grep "spark-log-analytics" | awk '{print $1}')
-          
-          # Pull latest main branch into the Databricks Repo
-          databricks repos update $REPO_ID --branch main
+          databricks repos update 1361998714105654 --branch main
