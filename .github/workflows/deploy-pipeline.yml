@@ -11,18 +11,18 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4 
+        uses: actions/checkout@v4
 
       - name: Setup Databricks CLI
         uses: databricks/setup-cli@main
 
-      - name: Manual Sync to Workspace
+      - name: Sync via Repos API
         env:
           DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
           DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
         run: |
-          # Delete existing folder to avoid access denied on overwrite
-          databricks workspace delete /Users/amrabdelrahman7788ss@gmail.com/LogInsights --recursive || true
+          # Get the repo ID first
+          REPO_ID=$(databricks repos list | grep "spark-log-analytics" | awk '{print $1}')
           
-          # Import notebooks from repo to workspace
-          databricks workspace import-dir ./LogInsights /Users/amrabdelrahman7788ss@gmail.com/LogInsights
+          # Pull latest main branch into the Databricks Repo
+          databricks repos update $REPO_ID --branch main
