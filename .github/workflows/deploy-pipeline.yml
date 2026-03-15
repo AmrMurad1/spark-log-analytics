@@ -12,6 +12,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4 
+
       - name: Setup Databricks CLI
         uses: databricks/setup-cli@main
 
@@ -20,6 +21,8 @@ jobs:
           DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
           DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
         run: |
-          # We explicitly call workspace import-dir. 
-          # This avoids the 'bundle' logic and the SCIM error.
-          databricks workspace import-dir ./LogInsights /Users/amrabdelrahman7788ss@gmail.com/LogInsights --overwrite
+          # Delete existing folder to avoid access denied on overwrite
+          databricks workspace delete /Users/amrabdelrahman7788ss@gmail.com/LogInsights --recursive || true
+          
+          # Import notebooks from repo to workspace
+          databricks workspace import-dir ./LogInsights /Users/amrabdelrahman7788ss@gmail.com/LogInsights
